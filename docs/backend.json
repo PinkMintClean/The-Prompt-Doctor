@@ -1,0 +1,398 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the user."
+        },
+        "creationDate": {
+          "type": "string",
+          "description": "Date and time when the user account was created.",
+          "format": "date-time"
+        },
+        "lastLogin": {
+          "type": "string",
+          "description": "Date and time of the user's last login.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "displayName",
+        "creationDate"
+      ]
+    },
+    "GlossaryCategory": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "GlossaryCategory",
+      "type": "object",
+      "description": "Represents a category in the AI character glossary.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the category."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the glossary category (e.g., Hair & Styling)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the glossary category."
+        },
+        "order": {
+          "type": "number",
+          "description": "The display order of the category"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "order"
+      ]
+    },
+    "GlossarySubcategory": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "GlossarySubcategory",
+      "type": "object",
+      "description": "Represents a subcategory within a glossary category.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the subcategory."
+        },
+        "categoryId": {
+          "type": "string",
+          "description": "Reference to GlossaryCategory. (Relationship: GlossaryCategory 1:N GlossarySubcategory)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the subcategory (e.g., Hair Texture)."
+        }
+      },
+      "required": [
+        "id",
+        "categoryId",
+        "name"
+      ]
+    },
+    "GlossaryKeyword": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "GlossaryKeyword",
+      "type": "object",
+      "description": "Represents a keyword within a glossary subcategory.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the keyword."
+        },
+        "subcategoryId": {
+          "type": "string",
+          "description": "Reference to GlossarySubcategory. (Relationship: GlossarySubcategory 1:N GlossaryKeyword)"
+        },
+        "keyword": {
+          "type": "string",
+          "description": "The keyword itself (e.g., fine straight)."
+        }
+      },
+      "required": [
+        "id",
+        "subcategoryId",
+        "keyword"
+      ]
+    },
+    "ExplicitTermSynonym": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ExplicitTermSynonym",
+      "type": "object",
+      "description": "Represents a mapping between an explicit/unsafe term and its safe synonyms.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the explicit term synonym."
+        },
+        "explicitTerm": {
+          "type": "string",
+          "description": "The explicit/unsafe term (e.g., sex)."
+        },
+        "synonyms": {
+          "type": "array",
+          "description": "Array of safe synonyms for the explicit term.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "explicitTerm",
+        "synonyms"
+      ]
+    },
+    "UserContribution": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserContribution",
+      "type": "object",
+      "description": "Represents a keyword contribution submitted by a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user contribution."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N UserContribution) User who submitted the contribution."
+        },
+        "keyword": {
+          "type": "string",
+          "description": "The contributed keyword."
+        },
+        "categoryId": {
+          "type": "string",
+          "description": "Reference to GlossaryCategory. Suggested category for the keyword."
+        },
+        "subcategoryId": {
+          "type": "string",
+          "description": "Reference to GlossarySubcategory. Suggested subcategory for the keyword."
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "Date and time when the contribution was submitted.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the contribution (e.g., pending, approved, rejected)."
+        },
+        "adminReviewerId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N UserContribution) Admin user who reviewed the contribution.  Null if not yet reviewed."
+        },
+        "reviewDate": {
+          "type": "string",
+          "description": "Date and time when the contribution was reviewed.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "keyword",
+        "categoryId",
+        "subcategoryId",
+        "submissionDate",
+        "status"
+      ]
+    },
+    "SavedPrompt": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SavedPrompt",
+      "type": "object",
+      "description": "Represents a user-saved prompt.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the saved prompt."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N SavedPrompt) User who saved the prompt."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the saved prompt (user-defined)."
+        },
+        "keywords": {
+          "type": "array",
+          "description": "Array of keywords included in the saved prompt.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ratioSettings": {
+          "type": "string",
+          "description": "JSON string representing ratio settings applied to this prompt"
+        },
+        "creationDate": {
+          "type": "string",
+          "description": "Date and time when the prompt was saved.",
+          "format": "date-time"
+        },
+        "popularityCount": {
+          "type": "number",
+          "description": "Number of times this prompt has been used/accessed."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "keywords",
+        "creationDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Collection to store user profiles.  Data is created via Firebase Authentication.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user, obtained from Firebase Authentication."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/glossary_categories/{categoryId}",
+        "definition": {
+          "entityName": "GlossaryCategory",
+          "schema": {
+            "$ref": "#/backend/entities/GlossaryCategory"
+          },
+          "description": "Collection to store glossary categories.  Admin-only write access.",
+          "params": [
+            {
+              "name": "categoryId",
+              "description": "The unique identifier for the category."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/glossary_subcategories/{subcategoryId}",
+        "definition": {
+          "entityName": "GlossarySubcategory",
+          "schema": {
+            "$ref": "#/backend/entities/GlossarySubcategory"
+          },
+          "description": "Collection to store glossary subcategories. Admin-only write access.",
+          "params": [
+            {
+              "name": "subcategoryId",
+              "description": "The unique identifier for the subcategory."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/glossary_keywords/{keywordId}",
+        "definition": {
+          "entityName": "GlossaryKeyword",
+          "schema": {
+            "$ref": "#/backend/entities/GlossaryKeyword"
+          },
+          "description": "Collection to store glossary keywords. Admin-only write access.",
+          "params": [
+            {
+              "name": "keywordId",
+              "description": "The unique identifier for the keyword."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/explicit_term_synonyms/{synonymId}",
+        "definition": {
+          "entityName": "ExplicitTermSynonym",
+          "schema": {
+            "$ref": "#/backend/entities/ExplicitTermSynonym"
+          },
+          "description": "Collection to store explicit term synonyms. Admin-only write access.",
+          "params": [
+            {
+              "name": "synonymId",
+              "description": "The unique identifier for the synonym."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/user_contributions/{contributionId}",
+        "definition": {
+          "entityName": "UserContribution",
+          "schema": {
+            "$ref": "#/backend/entities/UserContribution"
+          },
+          "description": "Subcollection to store user contributions. Includes denormalized 'userId' for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "contributionId",
+              "description": "The unique identifier for the user contribution."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/saved_prompts/{promptId}",
+        "definition": {
+          "entityName": "SavedPrompt",
+          "schema": {
+            "$ref": "#/backend/entities/SavedPrompt"
+          },
+          "description": "Subcollection to store saved prompts. Includes denormalized 'userId' for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "promptId",
+              "description": "The unique identifier for the saved prompt."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Collection to store admin roles. Existence of a document grants admin privileges.  Authorization based on existence over content.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "This Firestore structure is designed to support the AI Character Glossary application, emphasizing scalability, security, and ease of management. The design prioritizes **Authorization Independence** by denormalizing user-specific roles and memberships where necessary, eliminating the need for costly and insecure `get()` calls in security rules. This ensures atomic operations and simplifies debugging. Structural segregation creates collections with homogeneous security needs, clarifying access control intent. The use of path-based ownership for user-generated content (`SavedPrompt`, `UserContribution`) ensures clear ownership and efficient queries.\n\n*   **Glossary Data:** The glossary data (categories, subcategories, keywords) is stored in collections `glossary_categories`, `glossary_subcategories`, and `glossary_keywords`. This allows for efficient querying and management of the glossary content. Since this data is largely read-only by most users, security rules will focus on preventing unauthorized modifications.\n*   **User-Generated Content:** User contributions (`UserContribution`) and saved prompts (`SavedPrompt`) are stored in subcollections under the `/users/{userId}` path. This enforces path-based ownership, making security rules simple and efficient.\n*   **Admin Roles:** The existence of a document in the `roles_admin/{userId}` collection grants admin privileges. This approach (Existence over Content) is simple and efficient for managing global roles.\n*   **Explicit Term Synonyms:** Explicit term synonyms are stored in the `explicit_term_synonyms` collection. This allows for easy updating of the safety filter without requiring code deployments.\n\n**Authorization Independence (Denormalization):**\n\n*   The `UserContribution` document includes the `userId`. Security rules can directly check if `request.auth.uid == resource.data.userId` without needing to `get()` the user document.\n\n\n**QAPs (Query Authorization Patterns):**\n\n*   **Listing User Contributions:** Secure listing of user contributions is achieved via the path-based ownership `/users/{userId}/user_contributions`. A user can only list contributions where `request.auth.uid == userId`.\n*   **Listing Glossary Data:** The `glossary_categories`, `glossary_subcategories`, and `glossary_keywords` collections can be listed securely because access rules can be restricted to read-only, preventing unauthorized modifications. Because the data is public this can be easily filtered and sorted using indexes."
+  }
+}
