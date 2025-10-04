@@ -43,7 +43,7 @@ export function RatioScaler({ ratios, setRatios }: RatioScalerProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl font-semibold text-primary">Proportion Visualizer &amp; Ratio Scaling</CardTitle>
+        <CardTitle className="text-2xl font-semibold text-primary">Proportion Visualizer & Ratio Scaling</CardTitle>
         <CardDescription>
           Adjust values to emphasize features. Value is injected as (keyword:ratio). **(Default: 1.0)**
         </CardDescription>
@@ -93,4 +93,4 @@ export function RatioScaler({ ratios, setRatios }: RatioScalerProps) {
       </CardContent>
     </Card>
   );
-}
+} 

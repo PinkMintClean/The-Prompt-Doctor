@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Sparkles, Copy } from "lucide-react";
 import { rephrasePromptAction } from "./actions";
+import { Label } from "@/components/ui/label";
 
 export function PromptRephraser() {
   const [originalPrompt, setOriginalPrompt] = useState("");
@@ -100,6 +101,3 @@ export function PromptRephraser() {
     </Card>
   );
 }
-
-// Add this to your imports if you don't have it already
-import { Label } from "@/components/ui/label";
